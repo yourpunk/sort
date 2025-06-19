@@ -1,70 +1,84 @@
 # 🔤 Custom Radix Sort vs std::sort
 
-This project puts a custom radix sort head-to-head against the C++ standard sort.  
-The task: sort 10 million fixed-length strings made from a tiny alphabet.  
-No tricks, no fancy abstractions — just raw sorting logic and timing.
+This project compares a custom pointer-based radix sort with the C++ standard sort — both racing through 10 million fixed-length strings.  
+No abstractions, no STL tricks — just raw sorting logic and hard numbers.
 
-> ✍️ I wrote the function `radix_par` from scratch — you’ll find it in `sort.cpp`.  
-> Everything else is just setup, timing, and result verification.
-
----
-
-## 🧠 What It Does
-
-- Generates 10,000,000 strings of length 3  
-- Strings are made from this alphabet: `"ABCDE"`  
-- Uses two sorting strategies:
-  - 🧪 `radix_par`: student’s custom radix sort (pointer-based)
-  - 🧊 `std::sort`: baseline sort with pointer dereferencing
-
-After sorting, results are verified for correctness and runtime is measured.
+> ✍️ Core function `radix_par` was written from scratch (see `sort.cpp`).  
+> The rest: setup, timing, and correctness verification.
 
 ---
 
-## 📦 File Breakdown
+## ⚙️ What It Does
 
-| File         | What it does                        |
-|--------------|-------------------------------------|
-| `sort.cpp`   | ⭐ My implementation of `radix_par` |
-| `main.cpp`   | Generates data, runs both sorts     |
-| `sort.h`     | Interface definition                |
-| `test.h`     | Sorting test logic + verification   |
+- Generates **10,000,000 strings**, each 3 characters long  
+- Uses a limited alphabet: `"ABCDE"`  
+- Runs two sorting algorithms:
+  - 🧪 `radix_par`: custom implementation using direct memory access
+  - 🧊 `std::sort`: baseline comparison using pointer dereferencing
+
+Each run checks correctness and benchmarks the runtime.
 
 ---
 
-## 🛠 How To Run
+## 🧠 Why It Matters
 
-Make sure you have a C++17-compatible compiler.
+Sorting short fixed-length strings is deceptively simple — but when the input explodes, so do the bottlenecks.  
+This project explores:
+
+- raw pointer access vs STL dereferencing
+- low-level memory efficiency
+- **when** a hand-written algorithm can beat the standard one — and **why**
+
+> ⚠️ If it sorts wrong, it's useless.  
+> 🐌 If it sorts slow, it's boring.  
+> 💣 I made sure it's neither.
+
+---
+
+## 📁 Project Structure
+
+| File        | Role                                 |
+|-------------|--------------------------------------|
+| `sort.cpp`  | ⭐ Yourpunk's implementation of `radix_par` |
+| `main.cpp`  | Input generation, execution, timing  |
+| `sort.h`    | Header for sort interface            |
+| `test.h`    | Test runner and result validator     |
+
+---
+
+## 🚀 Running the Code
+
+Requires a **C++17**-compatible compiler.
 
 ```bash
-g++ -std=c++17 main.cpp sort.cpp -o sort_test
+g++ -std=c++17 main.cpp sort.cpp -O2 -o sort_test
 ./sort_test
 ```
 
-Expected output looks like this:
-```rust
+Example output:
+
+``` yaml
 student's radix sort       257ms
 std::sort                  435ms
 ```
-Or:
 
-```rust
+Or, if broken:
+```yaml
 student's radix sort       --- wrong result ---
 std::sort                  450ms
 ```
 
-## 💬 Why It Matters
-Sorting 10 million items isn’t hard — but doing it fast and right is.
-This wasn’t just about writing a sorting algorithm — it was about:
-- handling fixed-length string sorting efficiently
-- using pointers for speed
-- keeping results reproducible and testable
+# 🔍 Dev Notes
 
-> If it sorts wrong, it’s **useless**. <br>If it sorts slow, it’s **boring**. <br>I made sure it’s neither.
+- `radix_par()` is written from scratch, optimized for this specific task
+- Assumes string length and alphabet size are fixed & known at compile time
+- Code is deliberately raw — meant for learning, not production
 
-## 📜 License
-MIT. Use it, tweak it, break it, fix it. Just don’t submit it as your own homework.
+# 📜 License
+
+MIT — Use, modify, fork. Just don’t hand it in as your homework.  
+That would be lazy. You're better than that.
 
 ## 👤 Author
 🦾 Crafted by Aleksandra Kenig (aka [yourpunk](https://github.com/yourpunk)).<br>
-💌 Wanna collab or throw some feedback? You know where to find me.
+### Want to collab or roast my radix? Hit me up.
